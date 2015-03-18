@@ -1,1 +1,16 @@
--e git+git@github.com:jstutters/toolaudit.git@e1113414e445b9b229947d1a158e0ff1413b18fe#egg=toolaudit-develop
+alabaster==0.7.2
+argparse==1.3.0
+Babel==1.3
+docutils==0.12
+Jinja2==2.7.3
+MarkupSafe==0.23
+numpydoc==0.5
+py==1.4.26
+Pygments==2.0.2
+pytest==2.6.4
+pytz==2014.10
+six==1.9.0
+snowballstemmer==1.2.0
+Sphinx==1.3.1
+sphinx-rtd-theme==0.1.7
+-e git+git@github.com:jstutters/toolaudit.git@673e1137aac93fe696898a2cadd6e4e27d42462f#egg=toolaudit-develop
