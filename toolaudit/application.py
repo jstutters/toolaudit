@@ -2,8 +2,7 @@
 The toolaudit application
 """
 
-import sys
-import toolaudit
+from kitlist import KitList
 
 
 class ToolauditApp(object):
@@ -19,6 +18,19 @@ class ToolauditApp(object):
         """
 
         self.arguments = arguments
+        self.kitlist = KitList()
+        self.load_kitlist()
 
     def run(self):
-        pass
+        """
+        Run the checks
+        """
+        for tool in self.kitlist.tools:
+            print tool.reader_func(tool.path, **tool.reader_args)
+
+    def load_kitlist(self):
+        """
+        Populate self.kitlist with data from the path provided on the command
+        line
+        """
+        self.kitlist.read(self.arguments.kitlist_file[0])
