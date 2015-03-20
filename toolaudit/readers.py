@@ -6,6 +6,13 @@ import re
 import subprocess
 
 
+class InputError(Exception):
+    def __init__(self, msg, regex=None, line=None):
+        self.regex = regex
+        self.line = line
+        self.msg = msg
+
+
 def command_line(path, option=None, regex=None):
     """
     Get the output of a command line tool
@@ -43,6 +50,39 @@ def command_line(path, option=None, regex=None):
     return version
 
 
+def _get_line(path, line_no):
+    """
+    Get the specified line from the file at *path*
+
+    Parameters
+    ----------
+    path : str
+        Path to read
+    line_no : int
+        The line to get
+
+    Returns
+    -------
+    line : str
+        Requested line
+
+    Raises
+    ------
+    InputError
+
+    with open(path, 'r') as f:
+        for _ in range(line_no - 1):
+            l = f.readline()
+            print l
+            if not l:
+                raise InputError(msg="Line number beyond end-of-file")
+        line = f.readline()
+    if not line:
+        raise InputError(msg="Line number beyond end-of-file")
+    line = line.strip()
+    return line
+
+
 def line_in_file(path, line_no=None, regex=None):
     """
     Read a line from a file optionally apply a regex
@@ -60,13 +100,13 @@ def line_in_file(path, line_no=None, regex=None):
         The contents of group 0 of the regex
     """
 
-    with open(path, 'r') as f:
-        for _ in range(line_no - 1):
-            f.readline()
-        line = f.readline().strip()
+    line = _get_line(path, line_no)
     if regex:
-        m = re.search(regex, line).groups()
-        version = m[0]
+        m = re.search(regex, line)
+        if m:
+            version = m.groups()[0]
+        else:
+            raise InputError(regex, line, "Pattern not found")
     else:
         version = line
     return version
