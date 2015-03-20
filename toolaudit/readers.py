@@ -43,15 +43,15 @@ def command_line(path, option=None, regex=None):
     return version
 
 
-def regex_line(path, line_no=None, regex=None):
+def line_in_file(path, line_no=None, regex=None):
     """
-    Read a line from a file and get the version number with a regex
+    Read a line from a file optionally apply a regex
 
     Parameters
     ----------
     line_no : int
         Line number to read
-    regex : str
+    regex : str or None
         Regular expression to apply to the read line
 
     Returns
@@ -64,8 +64,11 @@ def regex_line(path, line_no=None, regex=None):
         for _ in range(line_no - 1):
             f.readline()
         line = f.readline().strip()
-    m = re.search(regex, line).groups()
-    version = m[0]
+    if regex:
+        m = re.search(regex, line).groups()
+        version = m[0]
+    else:
+        version = line
     return version
 
 

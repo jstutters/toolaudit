@@ -25,7 +25,7 @@ class KitList(object):
     def __init__(self):
         self.reader_functions = {
             'command_line': readers.command_line,
-            'regex_line': readers.regex_line,
+            'line_in_file': readers.line_in_file,
             'manual': readers.manual
         }
         self.tools = []
