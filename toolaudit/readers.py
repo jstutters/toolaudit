@@ -52,23 +52,25 @@ def command_line(path, option=None, regex=None):
 
 def _get_line(path, line_no):
     """
-    Get the specified line from the file at *path*
+    Get the specified line from the file at *path*.
 
     Parameters
     ----------
     path : str
-        Path to read
+        Path to read.
     line_no : int
-        The line to get
+        The line to get.
 
     Returns
     -------
     line : str
-        Requested line
+        Requested line.
 
     Raises
     ------
     InputError
+        If the requested line is beyond the end of the file.
+    """
 
     with open(path, 'r') as f:
         for _ in range(line_no - 1):
@@ -85,19 +87,24 @@ def _get_line(path, line_no):
 
 def line_in_file(path, line_no=None, regex=None):
     """
-    Read a line from a file optionally apply a regex
+    Read a line from a file optionally apply a regex.
 
     Parameters
     ----------
     line_no : int
-        Line number to read
+        Line number to read.
     regex : str or None
-        Regular expression to apply to the read line
+        Regular expression to apply to the read line.
 
     Returns
     -------
     version : str
-        The contents of group 0 of the regex
+        The contents of group 0 of the regex.
+
+    Raises
+    ------
+    InputError
+        If the regex pattern returns no matches.
     """
 
     line = _get_line(path, line_no)
