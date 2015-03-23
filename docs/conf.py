@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # toolaudit documentation build configuration file, created by
-# sphinx-quickstart on Wed Mar 18 00:19:46 2015.
+# sphinx-quickstart on Mon Mar 23 11:33:06 2015.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -33,7 +33,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
-    'numpydoc',
+    'sphinx.ext.autosummary',
+    'numpydoc'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
