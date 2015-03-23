@@ -2,15 +2,16 @@
 Methods to read the version number from various things
 """
 
+import hashlib
 import re
 import subprocess
 
 
 class InputError(Exception):
-    def __init__(self, msg, regex=None, line=None):
-        self.regex = regex
-        self.line = line
-        self.msg = msg
+    """
+    An exception that may occur when reading files
+    """
+    pass
 
 
 def command_line(path, option=None, regex=None):
@@ -75,12 +76,11 @@ def _get_line(path, line_no):
     with open(path, 'r') as f:
         for _ in range(line_no - 1):
             l = f.readline()
-            print l
             if not l:
-                raise InputError(msg="Line number beyond end-of-file")
+                raise InputError("Line number beyond end-of-file")
         line = f.readline()
     if not line:
-        raise InputError(msg="Line number beyond end-of-file")
+        raise InputError("Line number beyond end-of-file")
     line = line.strip()
     return line
 
@@ -113,7 +113,9 @@ def line_in_file(path, line_no=None, regex=None):
         if m:
             version = m.groups()[0]
         else:
-            raise InputError(regex, line, "Pattern not found")
+            raise InputError({'message': "Pattern not found",
+                              'regex': regex,
+                              'line': line})
     else:
         version = line
     return version
@@ -140,3 +142,17 @@ def manual(path, value):  # pylint: disable=W0613
     """
 
     return value
+
+
+def sha1(path):
+    """
+    Calculate the SHA-1 checksum of a file.
+    """
+    sha = hashlib.sha1()  # pylint: disable=E1101
+    with open(path, 'rb') as hashfile:
+        while True:
+            block = hashfile.read(2**10)  # Magic number: one-megabyte blocks.
+            if not block:
+                break
+            sha.update(block)
+    return sha.hexdigest()
