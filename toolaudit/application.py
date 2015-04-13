@@ -4,6 +4,7 @@ The toolaudit application
 
 from kitlist import KitList
 import readers
+import os.path
 
 
 class ToolauditApp(object):
@@ -35,6 +36,11 @@ class ToolauditApp(object):
     def check(self):
         kitlist = KitList.from_file(self.arguments.kitlist_file[0])
         for tool in kitlist.tools:
+            if not os.path.exists(tool.path):
+                err_msg = "The path for '{0}' does not exist: {1}".format(
+                    tool.name, tool.path
+                )
+                raise IOError(err_msg)
             tool.version = tool.reader_func(tool.path, **tool.reader_args)
             tool.checksum = readers.sha1(tool.path)
         return kitlist
