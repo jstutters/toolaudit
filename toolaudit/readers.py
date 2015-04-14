@@ -43,9 +43,13 @@ def command_line(path, option=None, regex=None):
         stderr=subprocess.STDOUT
     ).communicate()
     response = response[0].strip()
+    version = None
     if regex:
-        m = re.search(regex, response)
-        version = m.groups(0)[0]
+        for line in response.split('\n'):
+            m = re.search(regex, line)
+            if m:
+                version = m.groups(0)[0]
+                break
     else:
         version = response
     return version

@@ -46,7 +46,11 @@ class ToolauditApp(object):
                     tool.name, tool.path
                 )
                 raise IOError(err_msg)
-            tool.version = tool.reader_func(tool.path, **tool.reader_args)
+            tool.version = tool.reader.func(tool.path, **tool.reader.args)
+            if tool.tester:
+                tool.output_checksum = tool.tester.func(
+                    tool.path, **tool.tester.args
+                )
             tool.checksum = readers.sha1(tool.path)
         return kitlist
 
