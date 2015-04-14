@@ -25,6 +25,7 @@ class ToolauditApp(object):
         """
         Run the checks
         """
+
         checked_kitlist = self.check()
         if self.arguments.compare:
             self.compare(checked_kitlist)
@@ -34,6 +35,10 @@ class ToolauditApp(object):
             checked_kitlist.to_stdout()
 
     def check(self):
+        """
+        Read the KitList specified by the user then run the checks.
+        """
+
         kitlist = KitList.from_file(self.arguments.kitlist_file[0])
         for tool in kitlist.tools:
             if not os.path.exists(tool.path):
@@ -46,6 +51,10 @@ class ToolauditApp(object):
         return kitlist
 
     def compare(self, comparison):
+        """
+        Compare the KitList from the current test session with a reference copy
+        """
+
         reference = KitList.from_file(self.arguments.compare[0])
         mismatches = []
         for ref_tool in reference.tools:
