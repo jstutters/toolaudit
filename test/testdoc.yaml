@@ -1,11 +1,29 @@
 ---
 tools:
-    - name: siena
-      path: /trials/sfw/LINUX/fsl4/bin/siena
-      reader: {name: line_in_file, line_no: 20, regex: "^.*Release\\s([0-9\\.]*)\\s.*$"}
-    - name: pip
-      path: /usr/bin/pip
-      reader: {name: command_line, option: -V, regex: "^.*pip\\s([0-9\\.]*)\\s.*$"}
-    - name: Jim6
-      path: /usr/local/bin/Jim6
-      reader: {name: manual, value: "1.6.0_22"} 
+  - name: siena
+    path: /trials/sfw/LINUX/fsl4/bin/siena
+    reader:
+      name: line_in_file
+      line_no: 20
+      regex: "^.*Release\\s([0-9\\.]*)\\s.*$"
+  - name: pip
+    path: /usr/bin/pip
+    reader: 
+      name: command_line
+      option: -V
+      regex: "^.*pip\\s([0-9\\.]*)\\s.*$"
+  - name: Jim6
+    path: /usr/local/bin/Jim6
+    reader: 
+      name: manual
+      value: "1.6.0_22"
+  - name: cat
+    path: /bin/cat
+    reader:
+      name: command_line
+      option: --version
+      regex: "^cat\\s\\(GNU\\scoreutils\\)\\s([0-9\\.]*)$"
+    test:
+      command: "{0} {1} {2}"
+      inputs: [/tmp/foo.txt, /tmp/bar.txt]
+      name: stdout
