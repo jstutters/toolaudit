@@ -88,7 +88,7 @@ class KitList(object):
 
     tester_functions = {
         'stdout': testers.stdout,
-        'fileout': testers.fileout
+        'file': testers.fileout
     }
 
     def __init__(self):
@@ -145,7 +145,8 @@ class KitList(object):
                 reader,
                 tester,
                 tool.get('version', None),
-                tool.get('checksum', None)
+                tool.get('checksum', None),
+                tool.get('output_checksum', None)
             )
             tools.append(audit_job)
         self.tools = tools
@@ -156,7 +157,6 @@ class KitList(object):
         Take a tester element read from a KitList file and convert it to a
         Tester namedtuple
         """
-        print element
         tester_name = element['name']
         if tester_name not in cls.tester_functions:
             raise(KeyError(
@@ -168,7 +168,6 @@ class KitList(object):
         tester_func = cls.tester_functions[tester_name]
         tester_args = dict(args)
         tester = Tester(tester_name, tester_func, tester_args)
-        print tester
         return tester
 
     @classmethod

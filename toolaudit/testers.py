@@ -6,9 +6,44 @@ import hashlib
 import os.path
 import readers
 import shlex
+import shutil
 import subprocess
+import tempfile
 
 
+def test(func):
+    """
+    Decorator which handles test setup
+
+    Makes a temporary directory, copies all files specified by the inputs
+    argument to that directory, sets the temporary directory as working
+    directory, passes control to the test, deletes the temporary directory.
+    """
+    def prepare_and_cleanup(*args, **kwargs):
+        orig_dir, temp_dir = _prepare(kwargs['inputs'])
+        ret = func(*args, **kwargs)
+        _cleanup(orig_dir, temp_dir)
+        return ret
+    return prepare_and_cleanup
+
+
+def _prepare(input_files):
+    temp_dir = tempfile.mkdtemp()
+    cwd = os.getcwd()
+
+    for f in input_files.values():
+        shutil.copy(f, temp_dir)
+
+    os.chdir(temp_dir)
+    return cwd, temp_dir
+
+
+def _cleanup(original_directory, temp_dir):
+    os.chdir(original_directory)
+    shutil.rmtree(temp_dir)
+
+
+@test
 def stdout(executable_path, command, inputs):
     """
     Execute a program with some inputs and hash what it prints to stdout.
@@ -29,7 +64,7 @@ def stdout(executable_path, command, inputs):
         The SHA-1 hash of the program's output
     """
 
-    cmd = command.format(executable_path, *inputs)
+    cmd = command.format(exe=executable_path, **inputs)
     response = subprocess.Popen(
         shlex.split(cmd),
         stdout=subprocess.PIPE,
@@ -40,6 +75,7 @@ def stdout(executable_path, command, inputs):
     return sha.hexdigest()
 
 
+@test
 def fileout(executable_path, command, inputs, output_path):
     """
     Execute a program with some inputs and hash the file created at
@@ -63,10 +99,13 @@ def fileout(executable_path, command, inputs, output_path):
         The SHA-1 hash of the program's output
     """
 
-    cmd = command.format(executable_path, *inputs)
-    subprocess.check_call(
-        shlex.split(cmd)
-    )
+    cmd = command.format(exe=executable_path, **inputs)
+    with open(os.devnull, 'w') as f:
+        subprocess.check_call(
+            shlex.split(cmd),
+            stdout=f,
+            stderr=f
+        )
     if not os.path.exists(output_path):
         err_msg = "Output file from '{1}' not found ({2})".format(
             executable_path, output_path
