@@ -1,11 +1,21 @@
 ---
 tools:
-  - name: siena
-    path: /trials/sfw/LINUX/fsl4/bin/siena
+  - name: msienax
+    path: /trials/sfw/LINUX/fsl4/bin/msienax
     reader:
       name: line_in_file
       line_no: 20
       regex: "^.*Release\\s([0-9\\.]*)\\s.*$"
+    test:
+      name: file
+      command: "{exe} t1 -d"
+      inputs:
+        orig: sienax/orig_t1_brain.nii.gz
+        mask: sienax/t1_brain_mask.nii.gz
+        brain: sienax/t1_brain.nii.gz
+        skull: sienax/t1_brain_skull.nii.gz
+        t1: sienax/t1.nii.gz
+      output_path: t1_sienax/report.sienax
   - name: pip
     path: /usr/bin/pip
     reader: 
@@ -24,6 +34,8 @@ tools:
       option: --version
       regex: "^cat\\s\\(GNU\\scoreutils\\)\\s([0-9\\.]*)$"
     test:
-      command: "{0} {1} {2}"
-      inputs: [/tmp/foo.txt, /tmp/bar.txt]
       name: stdout
+      command: "{exe} {file1} {file2}"
+      inputs:
+        file1: foo.txt
+        file2: bar.txt
