@@ -5,7 +5,6 @@ Setup file for toolaudit.
 """
 
 import codecs
-import io
 import os
 from setuptools import setup
 import toolaudit
