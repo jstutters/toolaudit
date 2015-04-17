@@ -9,8 +9,8 @@ from application import ToolauditApp
 
 __author__ = "Jon Stutters"
 __copyright__ = "Copyright 2015, Jon Stutters"
-__version__ = '0.0.1'
-__date__ = '2015-03-19'
+__version__ = '0.0.2'
+__date__ = '2015-04-17'
 
 
 def main():
