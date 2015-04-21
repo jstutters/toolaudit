@@ -2,6 +2,7 @@
 Contains the KitList class
 """
 
+from __future__ import print_function
 from collections import namedtuple
 import sys
 import yaml
@@ -9,8 +10,9 @@ try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
-import readers
-import testers
+from . import readers
+from . import testers
+from six import iteritems
 
 
 Reader = namedtuple('Reader', ['name', 'func', 'args'])
@@ -55,11 +57,11 @@ class AuditJob(object):  # pylint: disable=R0903
             This AuditJob as a dictionary
         """
         reader_dict = {'name': self.reader.name}
-        for k, v in self.reader.args.iteritems():
+        for k, v in iteritems(self.reader.args):
             reader_dict[k] = v
         if self.tester:
             tester_dict = {'name': self.tester.name}
-            for k, v in self.tester.args.iteritems():
+            for k, v in iteritems(self.tester.args):
                 tester_dict[k] = v
         else:
             tester_dict = None
@@ -163,7 +165,7 @@ class KitList(object):
                 'Unknown tester function {}'.format(tester_name)
             ))
         args = [
-            (k, v) for k, v in element.iteritems() if k != 'name'
+            (k, v) for k, v in iteritems(element) if k != 'name'
         ]
         tester_func = cls.tester_functions[tester_name]
         tester_args = dict(args)
@@ -182,7 +184,7 @@ class KitList(object):
                 'Unknown reader function {}'.format(reader_name)
             ))
         args = [
-            (k, v) for k, v in element.iteritems() if k != 'name'
+            (k, v) for k, v in iteritems(element) if k != 'name'
         ]
         reader_func = cls.reader_functions[reader_name]
         reader_args = dict(args)
@@ -229,8 +231,10 @@ class KitList(object):
         """
 
         to_save = {'tools': [t.as_dict() for t in self.tools]}
-        print >> sys.stdout, yaml.dump(
-            to_save, explicit_start=True, Dumper=Dumper)
+        print(
+            yaml.dump(to_save, explicit_start=True, Dumper=Dumper),
+            file=sys.stdout
+        )
 
     @classmethod
     def _fixup_regex(cls, regex):
