@@ -5,7 +5,7 @@ A tool for auditing software pipelines
 """
 
 import argparse
-from application import ToolauditApp
+from . import application
 
 __author__ = "Jon Stutters"
 __copyright__ = "Copyright 2015, Jon Stutters"
@@ -17,7 +17,7 @@ def main():
     """The main function"""
     parser = create_parser()
     args = parser.parse_args()
-    app = ToolauditApp(args)
+    app = application.ToolauditApp(args)
     app.run()
 
 

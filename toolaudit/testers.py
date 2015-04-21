@@ -4,7 +4,7 @@ Methods to validate the output of various things
 
 import hashlib
 import os.path
-import readers
+from . import readers
 import shlex
 import shutil
 import subprocess

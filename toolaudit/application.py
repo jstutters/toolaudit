@@ -2,9 +2,9 @@
 The toolaudit application
 """
 
-from kitlist import KitList
+from .kitlist import KitList
 import logging
-import readers
+from . import readers
 import os
 import os.path
 import sys
