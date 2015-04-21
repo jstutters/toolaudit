@@ -40,7 +40,8 @@ def command_line(path, option=None, regex=None):
     response = subprocess.Popen(
         [path, option],
         stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT
+        stderr=subprocess.STDOUT,
+        universal_newlines=True,
     ).communicate()
     response = response[0].strip()
     version = None
