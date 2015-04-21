@@ -16,12 +16,13 @@ def test_version(capsys, opt):
         parser.parse_args([opt])
     except SystemExit:
         pass
-    _, err = capsys.readouterr()
+    out, err = capsys.readouterr()
     correct_version = "{0} {1}\n".format(
         toolaudit.__name__,
         toolaudit.__version__
     )
-    assert err == correct_version
+    # version goes to stdout or stderr depending on python >= 3.4
+    assert (out == correct_version) or (err == correct_version)
 
 
 @pytest.mark.parametrize('opt', ['-V', '--version'])
