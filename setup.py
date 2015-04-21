@@ -27,6 +27,7 @@ setup(
     install_requires=[
         "argparse>=1.3.0",
         "PyYAML>=3.11",
+        "six>=1.9.0"
     ],
     entry_points={
         'console_scripts': [
