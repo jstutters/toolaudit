@@ -7,7 +7,6 @@ Setup file for toolaudit.
 import codecs
 import os
 from setuptools import setup
-import toolaudit
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -22,7 +21,7 @@ def read(filename):
 
 setup(
     name='toolaudit',
-    version=toolaudit.__version__,
+    version='0.0.2',
     packages=['toolaudit'],
     install_requires=[
         "argparse>=1.3.0",
