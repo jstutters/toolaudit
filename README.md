@@ -62,6 +62,12 @@ checksum is a SHA1 hash of the what was printed to stdout.
 Full documentation is at: [toolaudit.readthedocs.org](https://toolaudit.readthedocs.org/).
 
 
+## Release History
+
+0.0.3 - Added support for Python 3
+0.0.2 - Initial public release
+
+
 ## License
 
 `toolaudit` is licensed under [The MIT License](http://opensource.org/licenses/MIT).
