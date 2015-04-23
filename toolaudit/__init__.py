@@ -17,8 +17,12 @@ def main():
     """The main function"""
     parser = create_parser()
     args = parser.parse_args()
-    app = application.ToolauditApp(args)
-    app.run()
+    app = application.ToolauditApp()
+    app.run(
+        args.kitlist_file,
+        compare_file=args.compare_file,
+        output_file=args.output_file
+    )
 
 
 def create_parser():
@@ -35,10 +39,8 @@ def create_parser():
                         action='version',
                         version='{0:} {1:}'.format(__name__, __version__))
     parser.add_argument("-c", "--compare",
-                        nargs=1,
                         help='reference kitlist for comparison')
     parser.add_argument("-o", "--output_file",
-                        nargs=1,
                         help='file to write to')
-    parser.add_argument("kitlist_file", nargs=1)
+    parser.add_argument("kitlist_file")
     return parser

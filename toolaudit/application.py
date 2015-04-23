@@ -12,7 +12,7 @@ import sys
 
 class ToolauditApp(object):
     """Class for toolaudit functions"""
-    def __init__(self, arguments):
+    def __init__(self):
         """
         Initialize the toolaudit class
 
@@ -22,32 +22,37 @@ class ToolauditApp(object):
             The output of :class:`argparse.ArgumentParser.parse_args`
         """
 
-        self.arguments = arguments
         log = logging.getLogger(__name__)
         handler = logging.StreamHandler()
+        handler.setLevel(logging.INFO)
         log.addHandler(handler)
 
-    def run(self):
+    def run(self, kitlist_file, compare_file=None, output_file=None):
         """
         Run the checks
         """
 
-        kitlist_path = os.path.abspath(self.arguments.kitlist_file[0])
+        kitlist_path = os.path.abspath(kitlist_file)
         kitlist_dir = os.path.dirname(kitlist_path)
+        if compare_file:
+            compare_path = os.path.abspath(compare_file)
+        if output_file:
+            output_path = os.path.abspath(output_file)
         os.chdir(kitlist_dir)
         checked_kitlist = self.check(kitlist_path)
-        if self.arguments.compare:
-            if self.compare(checked_kitlist):
+        if compare_file:
+            if self.compare(compare_path, checked_kitlist):
                 sys.exit(1)
             else:
                 sys.exit(0)
-        if self.arguments.output_file:
-            checked_kitlist.save(self.arguments.output_file[0])
+        if output_file:
+            checked_kitlist.save(output_path)
         else:
             checked_kitlist.to_stdout()
         sys.exit(0)
 
-    def check(self, kitlist_path):
+    @classmethod
+    def check(cls, kitlist_path):
         """
         Read the KitList specified by the user then run the checks.
         """
@@ -70,12 +75,13 @@ class ToolauditApp(object):
             tool.checksum = readers.sha1(tool.path)
         return kitlist
 
-    def compare(self, comparison):
+    @classmethod
+    def compare(cls, compare_path, comparison):
         """
         Compare the KitList from the current test session with a reference copy
         """
 
-        reference = KitList.from_file(self.arguments.compare[0])
+        reference = KitList.from_file(compare_path)
         mismatches = []
         for ref_tool in reference.tools:
             comp_tool = comparison.get_tool(ref_tool.name)
