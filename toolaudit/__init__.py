@@ -9,8 +9,8 @@ from . import application
 
 __author__ = "Jon Stutters"
 __copyright__ = "Copyright 2015, Jon Stutters"
-__version__ = '0.0.2'
-__date__ = '2015-04-17'
+__version__ = '0.0.3'
+__date__ = '2015-04-23'
 
 
 def main():
