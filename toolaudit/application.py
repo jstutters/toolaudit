@@ -27,7 +27,7 @@ class ToolauditApp(object):
         handler.setLevel(logging.INFO)
         log.addHandler(handler)
 
-    def run(self, kitlist_file, compare_file=None, output_file=None):
+    def run(self, kitlist_file, compare_file=None, output_file=None, skip_tests=False):
         """
         Run the checks
         """
@@ -39,7 +39,7 @@ class ToolauditApp(object):
         if output_file:
             output_path = os.path.abspath(output_file)
         os.chdir(kitlist_dir)
-        checked_kitlist = self.check(kitlist_path)
+        checked_kitlist = self.check(kitlist_path, skip_tests)
         if compare_file:
             if self.compare(compare_path, checked_kitlist):
                 sys.exit(1)
@@ -52,7 +52,7 @@ class ToolauditApp(object):
         sys.exit(0)
 
     @classmethod
-    def check(cls, kitlist_path):
+    def check(cls, kitlist_path, skip_tests):
         """
         Read the KitList specified by the user then run the checks.
         """
@@ -66,7 +66,7 @@ class ToolauditApp(object):
                 )
                 raise IOError(err_msg)
             tool.version = tool.reader.func(tool.path, **tool.reader.args)
-            if tool.tester:
+            if tool.tester and not skip_tests:
                 tool.output_checksum = tool.tester.func(
                     tool.path, **tool.tester.args
                 )

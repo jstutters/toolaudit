@@ -22,6 +22,7 @@ def main():
         args.kitlist_file,
         compare_file=args.compare_file,
         output_file=args.output_file
+        skip_tests=args.skiptests
     )
 
 
@@ -40,6 +41,9 @@ def create_parser():
                         version='{0:} {1:}'.format(__name__, __version__))
     parser.add_argument("-c", "--compare",
                         help='reference kitlist for comparison')
+    parser.add_argument('-S', '--skiptests',
+                        help='just get version numbers and binary hashes',
+                        action='store_true')
     parser.add_argument("-o", "--output_file",
                         help='file to write to')
     parser.add_argument("kitlist_file")
