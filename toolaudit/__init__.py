@@ -17,11 +17,19 @@ def main():
     """The main function"""
     parser = create_parser()
     args = parser.parse_args()
+    if 'compare_file' in args:
+        compare_file = args.compare_file
+    else:
+        compare_file = None
+    if 'output_file' in args:
+        output_file = args.output_file
+    else:
+        output_file = None
     app = application.ToolauditApp()
     app.run(
         args.kitlist_file,
-        compare_file=args.compare_file,
-        output_file=args.output_file
+        compare_file=compare_file,
+        output_file=output_file,
         skip_tests=args.skiptests
     )
 
@@ -36,15 +44,15 @@ def create_parser():
     """
 
     parser = argparse.ArgumentParser(prog=__name__)
-    parser.add_argument("-V", "--version",
+    parser.add_argument('-V', '--version',
                         action='version',
                         version='{0:} {1:}'.format(__name__, __version__))
-    parser.add_argument("-c", "--compare",
-                        help='reference kitlist for comparison')
     parser.add_argument('-S', '--skiptests',
                         help='just get version numbers and binary hashes',
                         action='store_true')
-    parser.add_argument("-o", "--output_file",
+    parser.add_argument('-c', '--compare',
+                        help='reference kitlist for comparison')
+    parser.add_argument('-o', '--output_file',
                         help='file to write to')
-    parser.add_argument("kitlist_file")
+    parser.add_argument('kitlist_file')
     return parser
