@@ -23,6 +23,7 @@ setup(
     name='toolaudit',
     version='0.0.3',
     packages=['toolaudit'],
+    zip_safe=False,
     install_requires=[
         "argparse>=1.3.0",
         "PyYAML>=3.11",
