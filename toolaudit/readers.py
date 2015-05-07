@@ -149,7 +149,7 @@ def manual(path, value):  # pylint: disable=W0613
     return value
 
 
-def sha1(path):
+def sha1_file(path):
     """
     Calculate the SHA-1 checksum of a file.
     """

@@ -111,4 +111,4 @@ def fileout(executable_path, command, inputs, output_path):
             executable_path, output_path
         )
         raise(readers.InputError(err_msg))
-    return readers.sha1(output_path)
+    return readers.sha1_file(output_path)

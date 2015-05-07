@@ -74,7 +74,7 @@ class ToolauditApp(object):
                 )
             else:
                 tool.output_checksum = None
-            tool.checksum = readers.sha1(tool.path)
+            tool.checksum = readers.sha1_file(tool.path)
         return kitlist
 
     @classmethod
