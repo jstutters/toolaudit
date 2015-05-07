@@ -18,5 +18,4 @@ def test_simple_audit(capsys):
         pass
     out, err = capsys.readouterr()
     returned_yaml = yaml.load(out)
-    print returned_yaml
     assert returned_yaml['tools'][0]['checksum'] == '9c3bb3efa8095f36aafd9bf3a698efe439505021'
