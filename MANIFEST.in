@@ -1,0 +1,3 @@
+include test/example.yaml
+include test/foo.txt
+include test/bar.txt

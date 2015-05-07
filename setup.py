@@ -23,6 +23,7 @@ setup(
     name='toolaudit',
     version='0.0.3',
     packages=['toolaudit'],
+    zip_safe=False,
     install_requires=[
         "argparse>=1.3.0",
         "PyYAML>=3.11",
@@ -38,6 +39,7 @@ setup(
     description='Report on the tools used in your software pipeline.',
     long_description=read('README.rst'),
     url='https://github.com/jstutters/toolaudit',
+    include_package_data=True,
     license='MIT',
     classifiers=[
         'Programming Language :: Python',

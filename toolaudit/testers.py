@@ -70,9 +70,7 @@ def stdout(executable_path, command, inputs):
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
     ).communicate()
-    sha = hashlib.sha1()
-    sha.update(response[0])
-    return sha.hexdigest()
+    return sha1_string(response[0])
 
 
 @test
@@ -111,4 +109,24 @@ def fileout(executable_path, command, inputs, output_path):
             executable_path, output_path
         )
         raise(readers.InputError(err_msg))
-    return readers.sha1(output_path)
+    return readers.sha1_file(output_path)
+
+
+def sha1_string(text):
+    """
+    Calculate the SHA-1 checksum of a string
+
+    Parameters
+    ----------
+    text : str
+        The string to be checksummed
+
+    Returns
+    -------
+    hexdigest : str
+        The SHA-1 has of the string
+    """
+
+    sha = hashlib.sha1()
+    sha.update(text)
+    return sha.hexdigest()
