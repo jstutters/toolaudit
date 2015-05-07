@@ -25,12 +25,15 @@ def main():
         output_file = args.outputfile
     else:
         output_file = None
+    if 'onlytest' in args:
+        only_test = args.onlytest
     app = application.ToolauditApp()
     app.run(
         args.kitlist_file,
         compare_file=compare_file,
         output_file=output_file,
-        skip_tests=args.skiptests
+        skip_tests=args.skiptests,
+        only_test=only_test
     )
 
 
@@ -50,6 +53,8 @@ def create_parser():
     parser.add_argument('-S', '--skiptests',
                         help='just get version numbers and binary hashes',
                         action='store_true')
+    parser.add_argument('-O', '--onlytest',
+                        help='only run the specified test')
     parser.add_argument('-c', '--compare',
                         help='reference kitlist for comparison')
     parser.add_argument('-o', '--outputfile',

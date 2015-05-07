@@ -27,7 +27,7 @@ class ToolauditApp(object):
         handler.setLevel(logging.INFO)
         log.addHandler(handler)
 
-    def run(self, kitlist_file, compare_file=None, output_file=None, skip_tests=False):
+    def run(self, kitlist_file, compare_file=None, output_file=None, skip_tests=False, only_test=None):
         """
         Run the checks
         """
@@ -39,7 +39,7 @@ class ToolauditApp(object):
         if output_file:
             output_path = os.path.abspath(output_file)
         os.chdir(kitlist_dir)
-        checked_kitlist = self.check(kitlist_path, skip_tests)
+        checked_kitlist = self.check(kitlist_path, skip_tests, only_test)
         if compare_file:
             if self.compare(compare_path, checked_kitlist):
                 sys.exit(1)
@@ -52,13 +52,15 @@ class ToolauditApp(object):
         sys.exit(0)
 
     @classmethod
-    def check(cls, kitlist_path, skip_tests):
+    def check(cls, kitlist_path, skip_tests, only_test=None):
         """
         Read the KitList specified by the user then run the checks.
         """
 
         kitlist = KitList.from_file(kitlist_path)
         for tool in kitlist.tools:
+            if only_test is not None and only_test != tool.name:
+                continue
             logging.getLogger().info("Testing {0}".format(tool.name))
             if not os.path.exists(tool.path):
                 err_msg = "The path for '{0}' does not exist: {1}".format(
