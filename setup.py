@@ -38,6 +38,7 @@ setup(
     description='Report on the tools used in your software pipeline.',
     long_description=read('README.rst'),
     url='https://github.com/jstutters/toolaudit',
+    include_package_data=True,
     license='MIT',
     classifiers=[
         'Programming Language :: Python',
