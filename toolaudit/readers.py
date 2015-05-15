@@ -37,8 +37,11 @@ def command_line(path, option=None, regex=None):
         The value read from the command line after applying a regex if provided
     """
 
+    call = [path]
+    if option:
+        call.append(option)
     response = subprocess.Popen(
-        [path, option],
+        call,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         universal_newlines=True,
