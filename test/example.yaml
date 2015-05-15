@@ -12,3 +12,9 @@ tools:
       inputs:
         file1: foo.txt
         file2: bar.txt
+  - name: grep
+    path: /bin/grep
+    reader:
+      name: command_line
+      option: 
+      regex: "^Usage:\\s(.*)$"
