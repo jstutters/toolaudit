@@ -64,6 +64,7 @@ Full documentation is at: [toolaudit.readthedocs.org](https://toolaudit.readthed
 
 ## Release History
 
+0.0.4 - Fixed crash when the line_in_file version reader was used with no arguments
 0.0.3 - Added support for Python 3
         Added the --onlytest option to run a specific test
 0.0.2 - Initial public release
