@@ -74,7 +74,7 @@ def stdout(executable_path, command, inputs):
 
 
 @test
-def fileout(executable_path, command, inputs, output_path):
+def fileout(executable_path, command, inputs, output_path, allow_non_zero=False):
     """
     Execute a program with some inputs and hash the file created at
     output_path.
@@ -97,13 +97,15 @@ def fileout(executable_path, command, inputs, output_path):
         The SHA-1 hash of the program's output
     """
 
-    cmd = command.format(exe=executable_path, **inputs)
+    cmd = shlex.split(command.format(exe=executable_path, **inputs))
     with open(os.devnull, 'w') as f:
-        subprocess.check_call(
-            shlex.split(cmd),
+        return_code = subprocess.call(
+            cmd,
             stdout=f,
             stderr=f
         )
+        if return_code != 0 and not allow_non_zero:
+            raise subprocess.CalledProcessError(return_code, cmd)
     if not os.path.exists(output_path):
         err_msg = "Output file from '{1}' not found ({2})".format(
             executable_path, output_path
