@@ -107,7 +107,7 @@ def fileout(executable_path, command, inputs, output_path, allow_non_zero=False)
         if return_code != 0 and not allow_non_zero:
             raise subprocess.CalledProcessError(return_code, cmd)
     if not os.path.exists(output_path):
-        err_msg = "Output file from '{1}' not found ({2})".format(
+        err_msg = "Output file from '{0}' not found ({1})".format(
             executable_path, output_path
         )
         raise(readers.InputError(err_msg))
