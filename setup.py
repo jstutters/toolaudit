@@ -21,7 +21,7 @@ def read(filename):
 
 setup(
     name='toolaudit',
-    version='0.0.4',
+    version='0.0.5',
     packages=['toolaudit'],
     zip_safe=False,
     install_requires=[
