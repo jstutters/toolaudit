@@ -6,7 +6,7 @@ Jinja2==2.11.3
 MarkupSafe==0.23
 numpydoc==0.5
 py==1.10.0
-Pygments==2.7.4
+Pygments==2.20.0
 pytest==9.0.3
 pytz==2014.10
 PyYAML==5.4
